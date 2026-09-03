@@ -16,7 +16,7 @@ def create_customers_table(connection):
     email TEXT,
     company TEXT,
     position TEXT,
-    registered TEXT,
+    registered_at TEXT,
     notes TEXT
     )
     
