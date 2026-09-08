@@ -41,7 +41,7 @@ def create_intractions_table(connection):
 
 def create_follow_ups_table(connection):
     connection.execute("""
-    CREATE TABLE IF NOT EXISTS fllowups(
+    CREATE TABLE IF NOT EXISTS follow_ups(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     customer_id INTEGER NOT NULL,
     date TEXT,
