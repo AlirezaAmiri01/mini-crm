@@ -24,9 +24,9 @@ def create_customers_table(connection):
 
 
 
-def create_intractions_table(connection):
+def create_interactions_table(connection):
     connection.execute("""
-    CREATE TABLE IF NOT EXISTS intractions(
+    CREATE TABLE IF NOT EXISTS interactions(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     customer_id INTEGER NOT NULL ,
     type TEXT NOT NULL,
@@ -56,7 +56,7 @@ def create_follow_ups_table(connection):
 if __name__ == "__main__":
     connection = create_connection()
     create_customers_table(connection)
-    create_intractions_table(connection)
+    create_interactions_table(connection)
     create_follow_ups_table(connection)
     connection.commit()
     connection.close()
