@@ -22,7 +22,7 @@ class CustomerRepository:
         self.connection.commit()
 
     def get_all(self):
-        sql = "SELECT * FROM customers"
+        sql = "SELECT * FROM customers WHERE is_deleted = 0 "
         cursor = self.connection.cursor()
         cursor.execute(sql)
         return cursor.fetchall()
@@ -41,7 +41,7 @@ class CustomerRepository:
         self.connection.commit()
 
     def delete(self,customer_id):
-        sql = "DELETE FROM customers WHERE id=?"
+        sql = "UPDATE customers SET is_deleted = 1 WHERE id =?"
         cursor = self.connection.cursor()
         cursor.execute(sql,(customer_id,))
         self.connection.commit()

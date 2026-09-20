@@ -59,3 +59,9 @@ print(interaction_repo.get_by_customer_id(1))
 follow_up_repo.switch_status(1,"undone")
 print(follow_up_repo.get_by_customer_id(1))
 
+
+
+customer_repo.delete(1)
+print(customer_repo.get_all())
+
+print(customer_repo.get_by_id(1))

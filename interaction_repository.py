@@ -41,3 +41,4 @@ class InteractionRepository:
         cursor = self.connection.cursor()
         cursor.execute(sql,(interaction_id,))
         self.connection.commit()
+

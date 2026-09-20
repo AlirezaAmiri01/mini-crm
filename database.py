@@ -17,7 +17,8 @@ def create_customers_table(connection):
     company TEXT,
     position TEXT,
     registered_at TEXT,
-    notes TEXT
+    notes TEXT,
+    is_deleted INTEGER DEFAULT 0 
     )
     
     """)
