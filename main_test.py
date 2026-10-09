@@ -2,7 +2,7 @@ from database import create_connection
 from customer_repository import CustomerRepository
 from interaction_repository import InteractionRepository
 from follow_up_repository import FollowUpRepository
-
+from customer_db_validators import validate_phone_not_dupliacte
 connection = create_connection()
 
 
@@ -65,3 +65,21 @@ customer_repo.delete(1)
 print(customer_repo.get_all())
 
 print(customer_repo.get_by_id(1))
+
+
+result = customer_repo.add("","09194218908","a.amiri@gmail.com","A","manager","2026","first customer")
+print(result)
+
+
+result = validate_phone_not_dupliacte("09194218908",connection,0)
+print(result)
+
+
+result = customer_repo.add("alireza","09194218908","@email","company","ceo","2026","notes")
+print(result)
+
+result = customer_repo.update(2,"amir akbari","09194218908","amirakbari@gmail.com","B","salary manager","second customer")
+print(result)
+
+result = customer_repo.update(2,"amir akbari","09195282073","amirakbari@gmail.com","B","salary manager","second customer")
+print(result)
