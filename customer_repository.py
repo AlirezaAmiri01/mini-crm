@@ -1,5 +1,6 @@
 from customer_validators import validate_name_not_empty ,validate_name_not_number,validate_phone_not_empty,validate_phone,validate_phone_not_word
 from customer_db_validators import validate_phone_not_dupliacte
+import sqlite3
 class CustomerRepository:
     def __init__(self,connection):
         self.connection = connection
@@ -34,22 +35,27 @@ class CustomerRepository:
             return error
 
 
-        sql = ''' INSERT INTO customers (
-        name,
-        phone,
-        email,
-        company,
-        position,
-        registered_at,
-        notes
-        ) 
-        VALUES(?,?,?,?,?,?,?)
-        '''
-        
-        cursor = self.connection.cursor()
-        cursor.execute(sql,(name,phone,email,company,position,registered_at,notes))
+        try:
 
-        self.connection.commit()
+            sql = ''' INSERT INTO customers (
+            name,
+            phone,
+            email,
+            company,
+            position,
+            registered_at,
+            notes
+            ) 
+            VALUES(?,?,?,?,?,?,?)
+            '''    
+            cursor = self.connection.cursor()
+            cursor.execute(sql,(name,phone,email,company,position,registered_at,notes))
+
+            self.connection.commit()
+
+        except sqlite3.Error as e:
+            print("database error:", e)
+            return f"database error: {e}"
 
     def get_all(self):
         sql = "SELECT * FROM customers WHERE is_deleted = 0 "
@@ -66,40 +72,52 @@ class CustomerRepository:
 
 
     def update(self,customer_id,name,phone,email,company,position,notes):
-         error = validate_name_not_empty(name)
-         if error:
+        error = validate_name_not_empty(name)
+        if error:
             return error
 
-         error = validate_name_not_number(name)
-         if error:
-            return error
-
-
-         error = validate_phone_not_empty(phone)
-         if error:
+        error = validate_name_not_number(name)
+        if error:
             return error
 
 
-         error = validate_phone(phone)
-         if error:
+        error = validate_phone_not_empty(phone)
+        if error:
+            return error
+
+
+        error = validate_phone(phone)
+        if error:
             return error 
 
 
-         error = validate_phone_not_word(phone)
-         if error:
+        error = validate_phone_not_word(phone)
+        if error:
             return error 
 
-         error = validate_phone_not_dupliacte(phone,self.connection,customer_id)
-         if error:
+        error = validate_phone_not_dupliacte(phone,self.connection,customer_id)
+        if error:
             return error
-        
-         sql = "UPDATE customers SET name=?,phone=?,email=?,company=?,position=?,notes=? WHERE id=?"
-         cursor = self.connection.cursor() 
-         cursor.execute(sql,(name,phone,email,company,position,notes,customer_id))
-         self.connection.commit()
+
+        try:
+            sql = "UPDATE customers SET name=?,phone=?,email=?,company=?,position=?,notes=? WHERE id=?"
+            cursor = self.connection.cursor() 
+            cursor.execute(sql,(name,phone,email,company,position,notes,customer_id))
+            self.connection.commit()
+
+        except sqlite3.Error as e:
+            print("database error: ",e)
+            return f"database error: {e}"
+
+  
+    
 
     def delete(self,customer_id):
-        sql = "UPDATE customers SET is_deleted = 1 WHERE id =?"
-        cursor = self.connection.cursor()
-        cursor.execute(sql,(customer_id,))
-        self.connection.commit()
+        try:
+            sql = "UPDATE customers SET is_deleted = 1 WHERE id =?"
+            cursor = self.connection.cursor()
+            cursor.execute(sql,(customer_id,))
+            self.connection.commit()
+        except sqlite3.Error as e:
+            print("database error: ",e)
+            return f"database error: {e}"

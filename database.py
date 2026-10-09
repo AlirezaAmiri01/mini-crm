@@ -1,10 +1,14 @@
 import sqlite3
 
 def create_connection():
-    connection = sqlite3.connect("crm.db")
-    connection.execute("PRAGMA foreign_keys = ON")
+    try:
+        connection = sqlite3.connect("z:/pooshe_vojood_nadare/crm.db")
+        connection.execute("PRAGMA foreign_keys = ON")
+        return connection
 
-    return connection
+    except sqlite3.Error as e:
+        print("database connection failed: ", e)
+        return None
 
 
 def create_customers_table(connection):
@@ -56,9 +60,14 @@ def create_follow_ups_table(connection):
 
 if __name__ == "__main__":
     connection = create_connection()
-    create_customers_table(connection)
-    create_interactions_table(connection)
-    create_follow_ups_table(connection)
-    connection.commit()
-    connection.close()
-    print("All tables created successfully")
+    if connection is None:
+        print("database connection has an error")
+
+
+    else:
+        create_customers_table(connection)
+        create_interactions_table(connection)
+        create_follow_ups_table(connection)
+        connection.commit()
+        connection.close()
+        print("All tables created successfully")
