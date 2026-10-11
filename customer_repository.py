@@ -142,3 +142,11 @@ class CustomerRepository:
         except sqlite3.Error as e:
             print("database error: ",e)
             return f"database error: {e}"
+
+
+
+    def search(self,keyword):
+        sql = "SELECT * FROM customers WHERE (name LIKE ? OR phone LIKE ?) AND is_deleted = 0"
+        cursor = self.connection.cursor()
+        cursor.execute(sql,(f"%{keyword}%",f"%{keyword}%"))
+        return cursor.fetchall()

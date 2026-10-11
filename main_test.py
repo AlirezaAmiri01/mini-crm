@@ -156,3 +156,19 @@ print("empty subject:", result)
 # true
 result = follow_up_repo.add_follow_up(1, "2026-11-10", "subject", "description")
 print("valid follow_up (should be None):", result)
+
+
+
+print("--- Search tests ---")
+
+# search with part of name
+print("search 'ali':", customer_repo.search("ali"))
+
+#search with part of phone 
+print("search '0912':", customer_repo.search("0912"))
+
+# search for somthing dont exitsts
+print("search 'nobody':", customer_repo.search("nobody"))
+
+#search every thing
+print("search '':", customer_repo.search(""))
