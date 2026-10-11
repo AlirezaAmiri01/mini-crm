@@ -2,7 +2,7 @@ import sqlite3
 
 def create_connection():
     try:
-        connection = sqlite3.connect("z:/pooshe_vojood_nadare/crm.db")
+        connection = sqlite3.connect("crm.db")
         connection.execute("PRAGMA foreign_keys = ON")
         return connection
 

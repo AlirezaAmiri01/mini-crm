@@ -1,5 +1,6 @@
 from customer_validators import validate_name_not_empty ,validate_name_not_number,validate_phone_not_empty,validate_phone,validate_phone_not_word
 from customer_db_validators import validate_phone_not_dupliacte
+from common_validators import validate_date_format , validate_date_not_empty,validate_email_format
 import sqlite3
 class CustomerRepository:
     def __init__(self,connection):
@@ -34,6 +35,21 @@ class CustomerRepository:
         if error:
             return error
 
+
+        error = validate_date_not_empty(registered_at)
+        if error:
+            return error
+
+        error = validate_date_format(registered_at)
+        if error:
+            return error
+
+        error = validate_email_format(email)
+        if error:
+            return error
+
+
+    
 
         try:
 
@@ -89,6 +105,11 @@ class CustomerRepository:
         error = validate_phone(phone)
         if error:
             return error 
+
+
+        error = validate_email_format(email)
+        if error:
+            return error
 
 
         error = validate_phone_not_word(phone)

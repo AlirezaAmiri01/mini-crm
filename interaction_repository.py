@@ -1,4 +1,6 @@
 import sqlite3
+from interaction_validators import validate_type_not_empty,validate_type_in_list
+from common_validators import validate_date_not_empty,validate_date_format,validate_subject_not_empty
 class InteractionRepository:
     def __init__(self,connection):
         self.connection = connection
@@ -13,6 +15,27 @@ class InteractionRepository:
 
 
     def add_interaction(self,customer_id,type,date,subject,notes,result):
+        error = validate_date_not_empty(date)
+        if error:
+            return error
+
+        error = validate_date_format(date)
+        if error:
+            return error
+
+
+        error = validate_type_not_empty(type)
+        if error:
+            return error
+
+        error = validate_type_in_list(type)
+        if error:
+            return error
+
+        error = validate_subject_not_empty(subject)
+        if error:
+            return error
+                
         try:
             sql="""  
             INSERT INTO interactions(
@@ -37,6 +60,25 @@ class InteractionRepository:
 
 
     def update_interaction(self,interaction_id,type,date,subject,notes,result):
+        error = validate_date_not_empty(date)
+        if error: 
+            return error 
+
+        error = validate_date_format(date)
+        if error:
+            return error
+
+        error = validate_type_not_empty(type)
+        if error:
+            return error
+
+        error = validate_type_in_list(type)
+        if error:
+            return error
+
+        error = validate_subject_not_empty(subject)
+        if error:
+            return error 
           
         try:        
             sql = "UPDATE interactions SET type=?,date=?,subject=?,notes=?,result=? WHERE id=?"
@@ -51,6 +93,9 @@ class InteractionRepository:
 
 
     def delete(self,interaction_id):
+
+
+    
            
         try:   
             sql = "DELETE FROM interactions WHERE id=?"

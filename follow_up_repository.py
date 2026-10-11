@@ -1,4 +1,5 @@
 import sqlite3
+from common_validators import validate_date_format,validate_subject_not_empty,validate_date_not_empty
 class FollowUpRepository:
     def __init__(self,connection):
         self.connection = connection
@@ -12,6 +13,21 @@ class FollowUpRepository:
 
 
     def add_follow_up(self,customer_id,date,subject,description):
+
+        error = validate_subject_not_empty(subject)
+        if error:
+            return error
+
+        error = validate_date_not_empty(date)
+        if error:
+            return error
+
+        error = validate_date_format(date)
+        if error:
+            return error 
+
+
+
         try:
             sql = """
             INSERT INTO follow_ups(
@@ -34,6 +50,18 @@ class FollowUpRepository:
 
 
     def update_follow_up(self,follow_up_id,date,subject,description,status):
+        error = validate_date_not_empty(date)
+        if error:
+            return error
+
+        error = validate_date_format(date)
+        if error:
+            return error
+
+        error = validate_subject_not_empty(subject)
+        if error:
+            return error 
+        
         try:
             sql = "UPDATE follow_ups SET date=?,subject=?,description=?,status=? WHERE id=?"
             cursor = self.connection.cursor()
