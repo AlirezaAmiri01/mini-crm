@@ -3,6 +3,8 @@ from customer_repository import CustomerRepository
 from interaction_repository import InteractionRepository
 from follow_up_repository import FollowUpRepository
 from customer_db_validators import validate_phone_not_dupliacte
+from dashboard_repository import count_today_follow_ups,count_open_follow_ups,count_interactions,count_customers
+
 connection = create_connection()
 
 
@@ -172,3 +174,8 @@ print("search 'nobody':", customer_repo.search("nobody"))
 
 #search every thing
 print("search '':", customer_repo.search(""))
+
+print("total cutomers:",count_customers(connection))
+print ("open follow-ups:",count_open_follow_ups(connection))
+print("todays follow-ups",count_today_follow_ups(connection))
+print("total interactions: ",count_interactions(connection))

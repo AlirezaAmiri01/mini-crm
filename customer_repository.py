@@ -150,3 +150,7 @@ class CustomerRepository:
         cursor = self.connection.cursor()
         cursor.execute(sql,(f"%{keyword}%",f"%{keyword}%"))
         return cursor.fetchall()
+
+
+
+    
